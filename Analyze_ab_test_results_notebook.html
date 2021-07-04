@@ -15719,11 +15719,12 @@ memory usage: 11.2+ MB
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[100]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[192]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;Compute the proportion of simulated differences under the null, which are greater than the observed difference&quot;&quot;&quot;</span>
-<span class="p">(</span><span class="n">p_diffs</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">p_new</span><span class="o">-</span><span class="n">p_old</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">obs_diff</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;group == &quot;treatment&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">converted</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">df2</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;group == &quot;control&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">converted</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="p">(</span><span class="n">p_diffs</span> <span class="o">&gt;</span> <span class="n">obs_diff</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -15739,13 +15740,13 @@ memory usage: 11.2+ MB
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[100]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[192]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>0.4976</pre>
+<pre>0.9087</pre>
 </div>
 
 </div>
@@ -15764,7 +15765,7 @@ memory usage: 11.2+ MB
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p><strong>The computed value states the probability of obtaining a difference in conversion rates being at least as big as the observed difference, assuming the null hypothesis to be true. Scientifically this is called the p-value.</strong></p>
-<p><strong>As we have computed a p-value of <code>0.4976</code> we oo not have statistical significance and therefore fail to reject the null hypothesis.</strong></p>
+<p><strong>As we have computed a p-value of <code>0.9087</code> we oo not have statistical significance and therefore fail to reject the null hypothesis.</strong></p>
 
 </div>
 </div>
@@ -15776,13 +15777,13 @@ memory usage: 11.2+ MB
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[101]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[193]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
 
-<span class="n">convert_old</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;landing_page == &quot;old_page&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">converted</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">convert_new</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;landing_page == &quot;new_page&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">converted</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">convert_old</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;landing_page == &quot;old_page&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">converted</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">convert_new</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;landing_page == &quot;new_page&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">converted</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="n">n_old</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;landing_page == &quot;old_page&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">n_new</span> <span class="o">=</span> <span class="n">df2</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;landing_page == &quot;new_page&quot;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
@@ -15801,7 +15802,7 @@ memory usage: 11.2+ MB
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[104]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[194]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Compute z_score and p_value</span>
@@ -15822,13 +15823,13 @@ memory usage: 11.2+ MB
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[104]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[194]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>(0.0032875796753531767, 0.5013115521701044)</pre>
+<pre>(1.3109241984234394, 0.9050583127590245)</pre>
 </div>
 
 </div>
@@ -17437,6 +17438,8 @@ memory usage: 11.2+ MB
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p><strong>Conclusion:</strong> From the last model it seems that being in county CA (intercept) does have an impact on the conversion rate in general. In detail someone from CA is about <code>0.131</code> times more likely to convert. Other factors do not seem to have an impact.</p>
 <p>We therefore fail to reject the null and say that we have statistical evidence that the new page is not better than the old page with respect to the conversion rate.</p>
+<p>To conclude, there is no statistical evidence that the country factor as a whole has any impact on the conversion rate. Furthermore. There is also neither statistical nor practical evidence that the new page is performing better than the old version. On the contrary the conversion rate of the old page is even slightly better.</p>
+<p>It therefore is not recommended to replace the old landing page by its newer version.</p>
 
 </div>
 </div>
